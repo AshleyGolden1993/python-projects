@@ -13,7 +13,8 @@ player_colors = []
 
 
 def multi_player():
-    num_players = int(screen.textinput(title="Welcome!", prompt="How many players are there? Between 2 and 6."))
+    """Takes user input and returns the number of players in a multiplayer game"""
+    num_players = int(screen.textinput(title="Who's playing?", prompt="How many players are there? Between 2 and 6."))
     for j in range(1, num_players + 1):
         user_name = screen.textinput(title="Getting Info", prompt=f"Player {j}, what is your name?")
         user_bet = screen.textinput(title="Make Your Bet", prompt="Who will win the race? Enter a color.")
@@ -23,10 +24,11 @@ def multi_player():
 
 
 def single_player():
+    """Takes user input and returns the users bet in a singleplayer game"""
     num_players = 6
     user_name = screen.textinput(title="Getting Info", prompt="Hello, what is your name?")
     user_bet = screen.textinput(title="Make Your Bet", prompt="Who will win the race? Enter a color.\n"
-                                                              "Your choices are:\n 'red', 'yellow', 'orange', 'green' ,"
+                                                              "Your choices are:\n'red', 'yellow', 'orange', 'green' ,"
                                                               "'blue', or 'purple'.")
     player_bets[user_name] = user_bet
     return user_bet
@@ -40,9 +42,11 @@ else:
     single_bet = single_player()
     players = 6
 
+# Set starting position for type of race
 positions = [-15, -30, -45, -60, -70]
 y = positions[players - 2]
 
+# Create turtles for each player in the race
 for turtle in range(players):
     new_turtle = Turtle(shape="turtle")
     if single_or_multi == "s":
@@ -65,17 +69,16 @@ while is_race_on:
                 if single_bet == winner:
                     mb.showinfo(message=f"You win! The winner was {winner}")
                     is_race_on = False
-                    break
                 else:
                     mb.showinfo(message=f"You lose. The winner was {winner}.")
                     is_race_on = False
-                    break
-            for player in player_bets:
-                if player_bets[player] == winner:
-                    is_race_on = False
-                    mb.showinfo(message=f"{player} won!")
-                else:
-                    continue
+            else:
+                for player in player_bets:
+                    if player_bets[player] == winner:
+                        is_race_on = False
+                        mb.showinfo(message=f"{player} won!")
+                    else:
+                        continue
         random_distance = random.randint(0, 10)
         turtle.fd(random_distance)
 
